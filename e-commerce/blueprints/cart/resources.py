@@ -9,15 +9,15 @@ from . import *
 from blueprints.user import *
 from blueprints.items import *
 
-bp_transactiondetails = Blueprint('transactiondetails', __name__)
-api = Api(bp_transactiondetails)
+bp_cart = Blueprint('cart', __name__)
+api = Api(bp_cart)
 
-class TransactionDetailsResource(Resource) :
+class CartResource(Resource) :
 
     def __init__(self) :
         pass
 
-    # @jwt_required
+    @jwt_required
     def get(self, transaction_id = None) :
         if id is None :
             parser = reqparse.RequestParser()
@@ -30,7 +30,7 @@ class TransactionDetailsResource(Resource) :
 
             offset = (args['p'] * args['rp']) - args['rp']
 
-            qry = TransactionDetails.query
+            qry = Cart.query
             
             if args['transaction_id'] is not None :
                 qry = qry.filter_by(book_id=args['transaction_id'])
@@ -83,7 +83,7 @@ class TransactionDetailsResource(Resource) :
         items = Item.query.get(args['item_id'])
         cart['item'] = marshal(items, Item.response_field)
 
-        return sewa, 200, {'Content-Type' : 'application/json'}
+        return cart, 200, {'Content-Type' : 'application/json'}
 
     
 

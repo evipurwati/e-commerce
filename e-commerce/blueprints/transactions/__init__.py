@@ -2,8 +2,8 @@ import random, logging
 from flask_restful import fields
 from blueprints import db
 
-class Checkout(db.Model):
-    __tablename__ = 'checkout'
+class Transaction(db.Model):
+    __tablename__ = 'transaction'
     cart_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
     nama_depan = db.Column(db.String(200))
@@ -27,13 +27,15 @@ class Checkout(db.Model):
     def __init__(self, cart_id, user_id, nama_depan, nama_belakang, alamat, kota, kode_pos, no_hp):
         self.cart_id = cart_id
         self.user_id = user_id
-        self.nama_depan = nama_belakang
+        self.nama_depan = nama_depan
+        self.nama_belakang = nama_belakang
+        self.alamat = alamat
         self.kota = kota
         self.kode_pos = kode_pos
         self.no_hp = no_hp
 
     def __repr__(self):
-        return f'<Checkout {self.id}>'
+        return f'<Transaction {self.cart_id}>'
 
 
 db.create_all()

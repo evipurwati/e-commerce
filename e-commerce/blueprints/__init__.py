@@ -52,11 +52,13 @@ from blueprints.auth import bp_auth
 from blueprints.user.resources import bp_user
 from blueprints.items.resources import bp_item
 from blueprints.cart.resources import bp_cart
+from blueprints.transactions.resources import bp_transactions
 
 app.register_blueprint(bp_auth, url_prefix='/users/login')
 app.register_blueprint(bp_user) 
 app.register_blueprint(bp_item)
 app.register_blueprint(bp_cart)
+app.register_blueprint(bp_transactions)
 
 
 

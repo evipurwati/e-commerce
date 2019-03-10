@@ -9,7 +9,7 @@ bp_item = Blueprint('item', __name__)
 api = Api(bp_item)
 
 class UserItemResource(Resource):
-    # @jwt_required
+    @jwt_required
     def get(self, id=None):
         if id is None:
             parser = reqparse.RequestParser()
@@ -44,63 +44,66 @@ class UserItemResource(Resource):
             return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
 
 
-    # @jwt_required
+    @jwt_required
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('negara', location='json', required=True)
-        parser.add_argument('nama', location='json', required=True)
-        parser.add_argument('kategori', location='json', required=True)
-        parser.add_argument('deskripsi', location='json', required=True)
-        parser.add_argument('old_price', type=int, location='json', required=True)
-        parser.add_argument('new_price', type=int, location='json', required=True)
-        parser.add_argument('qty', type=int, location='json', required=True)
-        args = parser.parse_args()
+        if get_jwt_claims()['status'] == 'admin':
+            parser = reqparse.RequestParser()
+            parser.add_argument('negara', location='json', required=True)
+            parser.add_argument('nama', location='json', required=True)
+            parser.add_argument('kategori', location='json', required=True)
+            parser.add_argument('deskripsi', location='json', required=True)
+            parser.add_argument('old_price', type=int, location='json', required=True)
+            parser.add_argument('new_price', type=int, location='json', required=True)
+            parser.add_argument('qty', type=int, location='json', required=True)
+            args = parser.parse_args()
 
-        item = Item(None, args['negara'], args['nama'], args['kategori'], args['deskripsi'], args['old_price'], args['new_price'], args['qty'])
-        db.session.add(item)
-        db.session.commit()
-
-        if item is not None:
-            return marshal(item, Item.response_field), 200, {'Content-Type': 'application/json'}
-        return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
-
-
-    # @jwt_required
-    def patch(self, id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('negara', location='json', required=True)
-        parser.add_argument('nama', location='json', required=True)
-        parser.add_argument('kategori', location='json', required=True)
-        parser.add_argument('deskripsi', location='json', required=True)
-        parser.add_argument('old_price', type=int, location='json', required=True)
-        parser.add_argument('new_price', type=int, location='json', required=True)
-        parser.add_argument('qty', type=int, location='json')
-        args = parser.parse_args()
-
-        qry = Item.query.get(id)
-        qry.negara = args['negara']
-        qry.nama = args['nama']
-        qry.kategori = args['kategori']
-        qry.deskripsi = args['deskripsi']
-        qry.old_price = args['old_price']
-        qry.new_price = args['new_price']
-        qry.qty = args['qty']
-
-        db.session.commit()
-
-        if qry is not None:
-            return marshal(qry, Item.response_field), 200, {'Content-Type': 'application/json'}
-        return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
-
-
-    # @jwt_required
-    def delete(self, id):
-        qry = Item.query.get(id)
-        if qry is not None:
-            db.session.delete(qry)
+            item = Item(None, args['negara'], args['nama'], args['kategori'], args['deskripsi'], args['old_price'], args['new_price'], args['qty'])
+            db.session.add(item)
             db.session.commit()
-            return "deleted", 200
-        return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
+
+            if item is not None:
+                return marshal(item, Item.response_field), 200, {'Content-Type': 'application/json'}
+            return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
+
+
+    @jwt_required
+    def patch(self, id):
+        if get_jwt_claims()['status'] == 'admin':
+            parser = reqparse.RequestParser()
+            parser.add_argument('negara', location='json', required=True)
+            parser.add_argument('nama', location='json', required=True)
+            parser.add_argument('kategori', location='json', required=True)
+            parser.add_argument('deskripsi', location='json', required=True)
+            parser.add_argument('old_price', type=int, location='json', required=True)
+            parser.add_argument('new_price', type=int, location='json', required=True)
+            parser.add_argument('qty', type=int, location='json')
+            args = parser.parse_args()
+
+            qry = Item.query.get(id)
+            qry.negara = args['negara']
+            qry.nama = args['nama']
+            qry.kategori = args['kategori']
+            qry.deskripsi = args['deskripsi']
+            qry.old_price = args['old_price']
+            qry.new_price = args['new_price']
+            qry.qty = args['qty']
+
+            db.session.commit()
+
+            if qry is not None:
+                return marshal(qry, Item.response_field), 200, {'Content-Type': 'application/json'}
+            return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
+
+
+    @jwt_required
+    def delete(self, id):
+        if get_jwt_claims()['status'] == 'admin':
+            qry = Item.query.get(id)
+            if qry is not None:
+                db.session.delete(qry)
+                db.session.commit()
+                return "deleted", 200
+            return {'status': 'NOT_FOUND', 'message': 'Item not found'}, 404, {'Content-Type': 'application/json'}
 
 
 class PublicItemResource(Resource):
