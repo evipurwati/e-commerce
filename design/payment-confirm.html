@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PAYMENT CONFIRMATION</title>
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Muli', sans-serif;
+            background-color: white;
+            margin-left: 400px;
+            margin-right: 400px;
+            margin-top: 100px;
+        }
+
+        h2 {
+            color: brown;
+            text-align: center;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 16px;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+        input[type=text]:focus,
+        input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .registerbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+            background-color: #f1f1f1;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form name="forms" action="/action_page.php">
+        <div class="container">
+            <!-- <h1>Registration Form</h1> -->
+            <h2>PAYMENT CONFIRMATION</h2>
+            <hr>
+
+
+            <label for="ordernum"><b>No Order</b></label>
+            <input type="text" name="ordernum" required>
+
+            <label for="pay"><b>Jumlah Pembayaran</b></label>
+            <input type="text" name="pay" required>
+
+            <label for="time"><b>Tanggal Pembayaran</b></label>
+            <input type="text" name="time" required>
+
+            <label for="pemilikrek"><b>Nama Pemilik Rekening</b></label>
+            <input type="text" name="pemilikrek" required>
+
+            <label for="norek"><b>No Rekening</b></label>
+            <input type="text" name="norek" required>
+
+            <label for="jenis"><b>Jenis Pembayaran</b></label><br><br>
+            <select class="form-control" id="sel1">
+                <option>Mobile Banking</option>
+                <option>Internet Banking</option>
+                <option>SMS Banking</option>
+                <option>Transfer ATM</option>
+                <option>Teller</option>
+            </select>
+            <!-- <label for="norek"><b>Jenis Pembayaran</b></label><br>
+            <label class="paymethod"><input type="radio" name="optradio" checked>Mobile Banking</label>
+            <label class="paymethod"><input type="radio" name="optradio">Internet Banking</label>
+            <label class="paymethod"><input type="radio" name="optradio">SMS Banking</label>
+            <label class="paymethod"><input type="radio" name="optradio">Transfer ATM</label>
+            <label class="paymethod"><input type="radio" name="optradio">Teller</label> -->
+
+            <hr>
+
+            <button type="submit" class="registerbtn" onclick="checkValidation()">SUBMIT</button>
+        </div>
+
+    </form>
+    <script src="script.js"></script>
+</body>
+
+</html>
