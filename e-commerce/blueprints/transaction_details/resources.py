@@ -9,31 +9,31 @@ from . import *
 from blueprints.user import *
 from blueprints.items import *
 
-bp_cart = Blueprint('cart', __name__)
-api = Api(bp_cart)
+bp_transactiondetails = Blueprint('transactiondetails', __name__)
+api = Api(bp_transactiondetails)
 
-class CartResource(Resource) :
+class TransactionDetailsResource(Resource) :
 
     def __init__(self) :
         pass
 
     # @jwt_required
-    def get(self, id = None) :
+    def get(self, transaction_id = None) :
         if id is None :
             parser = reqparse.RequestParser()
             parser.add_argument('p', type = int, location = 'args', default =  1)
             parser.add_argument('rp', type = int, location = 'args', default =  5)
-            parser.add_argument('user_id', type = int, location = 'args')
+            parser.add_argument('transaction_id', type = int, location = 'args')
             parser.add_argument('item_id', type = int, location = 'args')
 
             args = parser.parse_args()
 
             offset = (args['p'] * args['rp']) - args['rp']
 
-            qry = Cart.query
+            qry = TransactionDetails.query
             
-            if args['user_id'] is not None :
-                qry = qry.filter_by(book_id=args['user_id'])
+            if args['transaction_id'] is not None :
+                qry = qry.filter_by(book_id=args['transaction_id'])
             if args['item_id'] is not None :
                 qry = qry.filter_by(user_id=args['item_id'])
 
